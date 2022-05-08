@@ -1,12 +1,6 @@
-import { Changer, Store } from "./types";
-export {ChangerCreator} from "./types"
+import { createStore } from "./store";
+export {ChangerCreator, Store, Changer } from "./types"
 
-export const createStore = <S> (initialState: S): Store => {
-    let state: S = {...initialState};
-    const change = (changer: Changer) => {
-        state = changer(state);
-    }
-    return {change, getState: () => ({...state})}
-}
+export default createStore;
 
 

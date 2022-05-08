@@ -1,14 +1,13 @@
-type Changer<S = any> = (state: S) => S
+type Changer<S> = (state: S) => S;
 
-type ChangerCreator<T, S> = (payload: T) => Changer<S>
+type ChangerCreator<T, S> = (payload: T) => Changer<S>;
 
-type Selector<T> = () => T
+type Dispatch<S> = (changer: Changer<S>) => void;
 
-interface Store {
-    change(changer: Changer): void;
-    getState(): any;
+interface Store<S> {
+  dispatch: Dispatch<S>;
+  getState(): S;
+  subscribe(fn: Function): void;
 }
 
-export {
-    Changer, ChangerCreator, Selector, Store
-}  
+export { Changer, ChangerCreator, Store, Dispatch };
