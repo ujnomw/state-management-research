@@ -1,4 +1,4 @@
-import { Dispatch, Store } from './types';
+import { Dispatch, Store, Subscribe, Unsubscribe } from './types';
 
 export const createStore = <S>(initialState: S): Store<S> => {
   let state: S = { ...initialState };
@@ -11,8 +11,13 @@ export const createStore = <S>(initialState: S): Store<S> => {
     });
   };
 
-  const subscribe = (fn: Function) => {
+  const subscribe: Subscribe = (fn: Function) => {
     subscribers.push(fn);
+    const unsubscribe: Unsubscribe = () => {
+      subscribers = subscribers.filter(s => s !== fn);
+    };
+    return unsubscribe;
   };
+
   return { dispatch, getState: () => ({ ...state }), subscribe };
 };
