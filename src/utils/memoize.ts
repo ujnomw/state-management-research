@@ -1,4 +1,4 @@
-export const meoize = (fn: Function): Function => {
+export const memoize = (fn: Function): Function => {
   const cache: {
     [p: string]: any;
   } = {};

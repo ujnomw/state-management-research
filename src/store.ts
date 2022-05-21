@@ -1,5 +1,5 @@
 import { Dispatch, SelectorsObj, Store, Subscribe, Unsubscribe } from './types';
-import { meoize } from './utils';
+import { memoize } from './utils';
 
 export const createStore = <S>(
   initialState: S,
@@ -14,7 +14,7 @@ export const createStore = <S>(
   const reducedSelectors = Object.entries(selectorsObj).reduce<{
     [p: string]: Function;
   }>((acc, [key, selector]) => {
-    acc[key] = meoize(selector);
+    acc[key] = memoize(selector);
     return acc;
   }, {});
 
