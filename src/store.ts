@@ -1,4 +1,13 @@
-import { Dispatch, SelectorsObj, Store, Subscribe, Unsubscribe } from './types';
+import {
+  ChangerCreator,
+  Dispatch,
+  Effect,
+  EffectHandler,
+  SelectorsObj,
+  Store,
+  Subscribe,
+  Unsubscribe,
+} from './types';
 import { memoize } from './utils';
 
 export const createStore = <S>(
@@ -32,11 +41,20 @@ export const createStore = <S>(
     };
     return unsubscribe;
   };
+  const effectHandler: EffectHandler<S> = async <T>(
+    effect: Effect<T>,
+    success?: ChangerCreator<T, S>
+  ) => {
+    effect().then(v => {
+      if (success !== undefined) dispatch(success(v));
+    });
+  };
 
   return {
     dispatch,
     getState,
     subscribe,
     selectors: reducedSelectors,
+    effectHandler,
   };
 };
